@@ -1,0 +1,243 @@
+#i3 config file (v4)
+
+#exec_always xrandr --output eDP-1 --mode 3072x1920 --rate 120.00
+
+# Input device settings
+# Trackpad natural scrolling
+exec_always xinput set-prop 10 351 1
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+#Gaps
+smart_borders on
+set $inner_gaps 8
+set $outer_gaps 0
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+for_window [class="^.*"] border pixel 2
+gaps inner $inner_gaps
+gaps outer $outer_gaps
+
+# use these keys for focus, movement, and resize directions when reaching for
+# the arrows is not convenient
+set $up k
+set $down j
+set $left h
+set $right l
+
+set $mod Mod1
+
+set $primary eDP-1
+
+# use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+############# shortcuts ############# 
+bindsym $mod+Return exec alacritty
+bindsym $mod+Shift+q kill
+bindsym $mod+x exec dolphin ~
+bindsym $mod+d exec rofi -show drun 
+bindsym $mod+i exec brave 
+bindsym $mod+u exec brave --new-window 'web.whatsapp.com' 'youtube.com' 
+bindsym $mod+minus split v
+bindsym $mod+backslash split h
+bindsym $mod+f fullscreen toggle
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+Shift+space floating toggle
+bindsym Print exec maim -s | xclip -selection clipboard -t image/png
+# volume controls 
+bindsym $mod+bracketright exec amixer set Master 5%+ 
+bindsym $mod+bracketleft exec amixer set Master 5%-
+# brightness controls 
+bindsym XF86MonBrightnessUp exec brightnessctl s 10%+
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
+bindsym $mod+Shift+bracketright exec brightnessctl s 10%+
+bindsym $mod+Shift+bracketleft exec brightnessctl s 10%-
+# audio controls
+bindsym $mod+a mode "audio"
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+# cycle workspaces
+bindsym $mod+Tab workspace next
+bindsym Mod4+Tab workspace next
+bindsym Mod4+Shift+Tab workspace prev
+bindsym $mod+Shift+Tab workspace prev
+# mute & pause / unmute & unpause everything
+bindsym Ctrl+space exec playerctl -a pause && pactl set-sink-mute @DEFAULT_SINK@ on
+bindsym $mod+Ctrl+space exec playerctl -a play && pactl set-sink-mute @DEFAULT_SINK@ off
+bindsym $mod+p exec systemctl suspend
+bindsym $mod+Ctrl+Shift+p exec poweroff
+bindsym $mod+Ctrl+Shift+o exec reboot
+bindsym --release $mod+semicolon exec --no-startup-id xdotool key --clearmodifiers Menu
+bindsym --release $mod+Delete exec xkill
+
+mouse_warping none
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+BackSpace move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+BackSpace scratchpad show
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec powermenu
+
+# change focus
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# move focused window
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+#set monitors
+workspace 1 output $primary
+workspace 2 output $primary
+workspace 3 output $primary
+workspace 4 output $primary
+workspace 5 output $primary
+workspace 6 output $primary
+workspace 7 output $primary
+workspace 8 output $primary
+workspace 9 output $primary
+workspace 10 output $primary
+
+# switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+bindsym $mod+r mode "resize"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym Ctrl+space exec playerctl -a pause && pactl set-sink-mute @DEFAULT_SINK@ on
+        bindsym Ctrl+Shift+space exec playerctl -a play && pactl set-sink-mute @DEFAULT_SINK@ off
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym $left      resize shrink width 10 px or 10 ppt
+        bindsym $up       resize grow height 10 px or 10 ppt
+        bindsym $down         resize shrink height 10 px or 10 ppt
+        bindsym $right       resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+mode "audio" {
+        bindsym Ctrl+space exec playerctl -a pause && pactl set-sink-mute @DEFAULT_SINK@ on
+        bindsym Ctrl+Shift+space exec playerctl -a play && pactl set-sink-mute @DEFAULT_SINK@ off
+
+        bindsym space exec playerctl -a pause
+        bindsym p exec playerctl -a pause
+        # Brave controls
+        bindsym a exec playerctl -i spotify play-pause
+        bindsym s exec playerctl -i spotify previous 
+        bindsym d exec playerctl -i spotify volume 0.1+ 
+        bindsym f exec playerctl -i spotify volume 0.1- 
+        bindsym g exec playerctl -i spotify next 
+        # Spotify controls
+        bindsym semicolon exec playerctl -p spotify play-pause
+        bindsym h exec playerctl -p spotify previous
+        bindsym j exec playerctl -p spotify volume 0.1- 
+        bindsym k exec playerctl -p spotify volume 0.1+ 
+        bindsym l exec playerctl -p spotify next 
+
+        bindsym m exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+        bindsym c exec /home/charly/.local/bin/cycle-sinks
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+a mode "default"
+        bindsym $mod+Shift+q exec i3-msg mode "default" && i3-msg kill
+}
+
+font pango: JetBrains Mono Nerd Font 6
+#font pango:monospace 8
+#font pango:DejaVu Sans Mono 8
+
+set $bg-color 	         #424242
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
+set $indicator-color     #676767
+
+# window colors
+#                       border              background         text                 indicator
+client.focused          $bg-color           $bg-color          $text-color          $indicator-color
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color $indicator-color
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color $indicator-color
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $indicator-color
+
+#no next window indicator
+hide_edge_borders both
+
+exec_always --no-startup-id picom --backend xrender;
+
+#these won't work if they're in the startup script, and I can't be bothered to figure out why
+exec_always --no-startup-id light-locker --lock-on-suspend &
+exec_always --no-startup-id copyq --start-server &
+exec_always --no-startup-id nm-applet &
+exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+#other settings
+exec_always --no-startup-id ~/.local/bin/monitor-setup
+exec_always --no-startup-id ~/.local/bin/wallpaper
+exec_always --no-startup-id ~/.local/bin/peripherals

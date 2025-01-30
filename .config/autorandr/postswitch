@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sleep 1;
+pkill -u charly -x polybar
+
+for m in $(polybar --list-monitors | cut -d":" -f1); do
+    MONITOR=$m polybar main &
+done
