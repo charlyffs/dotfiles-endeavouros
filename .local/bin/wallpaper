@@ -1,0 +1,4 @@
+#!/bin/bash
+wallpaperCount=$(ls ~/Pictures/ | grep Wallpaper | wc -l);
+chosenWallpaper=$((1 + $RANDOM % $wallpaperCount));
+feh --bg-fill /home/charly/Pictures/Wallpaper$chosenWallpaper.*;

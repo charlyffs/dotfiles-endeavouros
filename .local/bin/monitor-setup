@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if xrandr | grep -q 'HDMI-1 connected'; then
+    autorandr -l docked
+    sed -i -E 's/(font-0.*size=)[0-9]{2}/\124/' /home/charly/.config/polybar/config.ini
+    sed -i -E 's/modules-right.*/modules-right = network pulseaudio margin/' /home/charly/.config/polybar/config.ini
+else
+    autorandr -l mobile
+    sed -i -E 's/(font-0.*size=)[0-9]{2}/\116/' /home/charly/.config/polybar/config.ini
+    sed -i -E 's/modules-right.*/modules-right = network backlight pulseaudio battery margin/' /home/charly/.config/polybar/config.ini
+fi;
+
+sleep 1;
+
+pkill -u charly -x polybar
+
+for m in $(polybar --list-monitors | cut -d":" -f1); do
+    MONITOR=$m polybar main &
+done
+
+bash /home/charly/.local/bin/wallpaper

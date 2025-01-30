@@ -1,0 +1,6 @@
+#!/bin/bash
+#keyboard layouts & shortcut
+setxkbmap -layout us,latam;
+setxkbmap -option 'grp:win_space_toggle';
+#mouse sensitivity
+xinput set-prop 'pointer:Logitech MX Master 3' 'libinput Accel Speed' -0.80;

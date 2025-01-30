@@ -1,0 +1,21 @@
+#!/bin/sh
+
+pacmd list-sinks | grep index | rev > sinks.txt;
+n=$(cat sinks.txt | wc -l);
+activeSinkNumber=$(cat sinks.txt | grep -n \* | cut -c1);
+activeSinkNumber=$(expr $activeSinkNumber + 1);
+if ((activeSinkNumber > n)); then
+    activeSinkNumber=1
+fi
+activeSinkIndex=$(cat sinks.txt | sed -n "${activeSinkNumber}p" | cut -c1);
+pacmd set-default-sink $activeSinkIndex;
+rm sinks.txt;
+
+pacmd set-default-sink "$activeSinkIndex"
+pacmd list-sink-inputs | grep index | while read -r line; do
+  echo "Moving input: ";
+  echo "$line" | cut -f2 -d' ';
+  echo "to sink: $activeSinkIndex";
+  pacmd move-sink-input "$(echo "$line" | cut -f2 -d' ')" "$activeSinkIndex"
+done
+
