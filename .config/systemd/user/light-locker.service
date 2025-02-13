@@ -1,0 +1,15 @@
+[Unit]
+Description=Light Locker (screen locker)
+After=graphical-session.target dbus.service
+Requires=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/light-locker
+Environment=XDG_SESSION_TYPE=x11
+Environment=XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session1
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=default.target
+
