@@ -96,6 +96,8 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec powermenu
 
+bindsym $mod+Shift+t exec /home/charly/.local/bin/toggle-trackpad
+
 # change focus
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down

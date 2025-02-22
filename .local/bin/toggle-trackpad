@@ -1,0 +1,11 @@
+#!/bin/bash
+
+enabled=$(xinput list-props 10 | grep "Device Enabled" | grep -P -o '\d+$')
+
+if [[ "$enabled" -eq "1" ]]; then
+  enabled="0"
+else
+  enabled="1"
+fi
+
+xinput set-prop 10 213 $enabled
